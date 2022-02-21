@@ -3,8 +3,9 @@
 const express = require('express')
 const app = express()
 const port = 3000
-let items = ['Buy Food', 'Cook Food', 'Eat Food']
-let workItems = []
+const date = require(`${__dirname}/date.js`)
+const items = ['Buy Food', 'Cook Food', 'Eat Food']
+const workItems = []
 // Tip: Use this instead app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.urlencoded({ extended: true }))
 // Turns on our CSS
@@ -13,14 +14,8 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs')
 // Starts on root directory.
 app.get('/', function (req, res) {
-  // Get the Day using the Date object
-  const day = new Date()
-  const options = {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  }
-  const today = day.toLocaleDateString('pt-BR', options)
+  // Calls our 'date.js' file
+  let today = date.getDate()
   // Render a Request using EJS to rename our original list.ejs file with the name of the days on the 'day' array
   res.render('list', { listTitle: today, newItems: items })
 })
